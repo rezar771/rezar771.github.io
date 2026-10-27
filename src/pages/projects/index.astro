@@ -1,0 +1,79 @@
+---
+import Base from '../../layouts/Base.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects, otherWork, tags } from '../../data/projects';
+---
+<Base title="Projects — Amirreza Rahimi" path="/projects">
+  <section class="section">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="eyebrow">Projects</span>
+        <h1>Everything I've built, with the numbers.</h1>
+        <p>Filter by area. Each card opens a case study with the pipeline, results and code.</p>
+      </div>
+
+      <div class="filters" role="group" aria-label="Filter projects">
+        <button type="button" class="f" aria-pressed="true" data-tag="">All <span class="num">{projects.length}</span></button>
+        {tags.map((t) => (
+          <button type="button" class="f" aria-pressed="false" data-tag={t}>
+            {t} <span class="num">{projects.filter((p) => p.tags.includes(t)).length}</span>
+          </button>
+        ))}
+      </div>
+
+      <div class="grid" id="project-grid">
+        {projects.map((p) => <div class="cell" data-tags={p.tags.join('|')}><ProjectCard project={p} /></div>)}
+      </div>
+
+      <div class="other">
+        <h2 class="eyebrow">Earlier and smaller work</h2>
+        <ul>
+          {otherWork.map((o) => (
+            <li>
+              {o.url ? <a href={o.url} target="_blank" rel="noopener">{o.title} ↗</a> : <span class="t">{o.title}</span>}
+              <span>{o.text}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('.f')];
+  const cells = [...document.querySelectorAll<HTMLElement>('#project-grid .cell')];
+  const apply = (tag: string) => {
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.tag === tag)));
+    const show = () => cells.forEach((c) => (c.hidden = !!tag && !c.dataset.tags!.split('|').includes(tag)));
+    // View transitions animate cards in and out where supported.
+    const d = document as Document & { startViewTransition?: (cb: () => void) => void };
+    d.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches ? d.startViewTransition(show) : show();
+  };
+  buttons.forEach((b) => b.addEventListener('click', () => apply(b.dataset.tag!)));
+  cells.forEach((c, i) => (c.style.viewTransitionName = `cell-${i}`));
+</script>
+
+<style>
+  h1 { font-size: var(--step-4); letter-spacing: -0.035em; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+  .f {
+    display: inline-flex; gap: 8px; align-items: center; cursor: pointer;
+    padding: 8px 14px; border-radius: 999px; border: 1px solid var(--line);
+    background: var(--bg-raised); color: var(--fg-2); font: 500 0.85rem/1 var(--font-mono);
+    transition: all .2s;
+  }
+  .f .num { color: var(--fg-3); font-size: 11px; }
+  .f:hover { color: var(--fg); border-color: var(--line-strong); }
+  .f[aria-pressed='true'] { background: var(--heat); color: var(--heat-ink); border-color: var(--heat); }
+  .f[aria-pressed='true'] .num { color: inherit; opacity: .7; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 340px), 1fr)); gap: 18px; }
+  .cell { display: grid; min-width: 0; }
+  .other { margin-top: 72px; display: grid; gap: 16px; }
+  .other ul { list-style: none; margin: 0; padding: 0; display: grid; border-top: 1px solid var(--line); }
+  .other li { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); gap: 6px 24px; padding: 14px 0; border-bottom: 1px solid var(--line); font-size: 0.93rem; }
+  .other li > :last-child { color: var(--fg-2); }
+  .other a, .other .t { font-weight: 600; text-decoration: none; }
+  .other a:hover { color: var(--heat); }
+  @media (max-width: 640px) { .other li { grid-template-columns: 1fr; } }
+</style>

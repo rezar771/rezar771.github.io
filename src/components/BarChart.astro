@@ -1,0 +1,58 @@
+---
+// Single-series horizontal bar chart. The highlighted bar carries the project accent;
+// the rest stay neutral, so color encodes "this is the result" rather than identity.
+import type { Chart } from '../data/projects';
+interface Props { chart: Chart }
+const { chart } = Astro.props;
+const fmt = (v: number) => (chart.max <= 1 ? v.toFixed(3) : chart.unit === '%' ? `${v}%` : v.toFixed(2));
+const ticks = [0, 0.25, 0.5, 0.75, 1].map((f) => f * chart.max);
+const tickFmt = (v: number) => (chart.max <= 1 ? v.toFixed(2) : chart.unit === '%' ? `${v}%` : String(v));
+---
+<figure class="chart">
+  <figcaption>
+    <span class="t">{chart.title}</span>
+    <span class="c">{chart.caption}</span>
+  </figcaption>
+  <div class="plot" role="table" aria-label={chart.title}>
+    <div class="grid" aria-hidden="true">
+      {ticks.map((t) => <span style={`left:${(t / chart.max) * 100}%`}><i class="mono">{tickFmt(t)}</i></span>)}
+    </div>
+    {chart.bars.map((b) => (
+      <div class:list={['row', { hl: b.highlight }]} role="row" tabindex="0" style={`--w:${Math.max((b.value / chart.max) * 100, 0)}%`}>
+        <span class="lab" role="rowheader">{b.label}</span>
+        <span class="track" role="cell">
+          <span class="bar"></span>
+          <span class="val mono num">{fmt(b.value)}</span>
+        </span>
+      </div>
+    ))}
+  </div>
+</figure>
+
+<style>
+  .chart { margin: 0; display: grid; gap: 18px; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--bg-raised); }
+  figcaption { display: grid; gap: 4px; }
+  .t { font: 700 var(--step-1)/1.2 var(--font-display); }
+  .c { font-size: 0.85rem; color: var(--fg-3); }
+  .plot { position: relative; display: grid; gap: 10px; padding-bottom: 26px; }
+  .grid { position: absolute; left: var(--lab-w, 34%); right: 64px; top: 0; bottom: 0; pointer-events: none; }
+  .grid span { position: absolute; top: 0; bottom: 22px; border-left: 1px solid var(--line); }
+  .grid i { position: absolute; bottom: -22px; transform: translateX(-50%); font-size: 10.5px; font-style: normal; color: var(--fg-3); white-space: nowrap; }
+  .row { display: grid; grid-template-columns: var(--lab-w, 34%) 1fr; align-items: center; min-height: 30px; border-radius: 4px; outline-offset: 2px; }
+  .lab { font-size: 0.85rem; color: var(--fg-2); padding-right: 12px; overflow-wrap: anywhere; }
+  .hl .lab { color: var(--fg); font-weight: 600; }
+  .track { position: relative; display: flex; align-items: center; gap: 8px; padding-right: 64px; height: 22px; }
+  .bar {
+    display: block; height: 100%; width: var(--w); min-width: 2px;
+    background: var(--bar-muted); border-radius: 0 4px 4px 0;
+    transform-origin: left; animation: grow 1.1s var(--ease-out) both;
+  }
+  .hl .bar { background: var(--accent, var(--heat)); }
+  .bar { flex: none; }
+  .val { flex: none; width: 0; overflow: visible; white-space: nowrap; font-size: 0.8rem; color: var(--fg-2); }
+  .hl .val { color: var(--fg); font-weight: 500; }
+  .row:hover .bar, .row:focus-visible .bar { filter: brightness(1.15); }
+  .row:hover .lab, .row:focus-visible .lab { color: var(--fg); }
+  @keyframes grow { from { transform: scaleX(0); } }
+  @media (max-width: 520px) { .chart { padding: 18px; } .chart { --lab-w: 40%; } }
+</style>

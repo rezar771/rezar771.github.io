@@ -1,0 +1,195 @@
+---
+// Hero background: a field of points scored like an anomaly map. Height and colour come
+// from slow waves plus a hot spot that follows the pointer (or wanders on its own),
+// mapped through the inferno colormap. A detection box tracks the hottest region.
+---
+<div class="field" aria-hidden="true">
+  <canvas id="heat-canvas"></canvas>
+  <div class="det" id="heat-det"><span class="det-label mono">anomaly <b id="heat-score">0.97</b></span></div>
+</div>
+
+<script>
+  import * as THREE from 'three';
+
+  const canvas = document.getElementById('heat-canvas') as HTMLCanvasElement;
+  const det = document.getElementById('heat-det') as HTMLElement;
+  const scoreEl = document.getElementById('heat-score') as HTMLElement;
+  const host = canvas.parentElement as HTMLElement;
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let renderer: THREE.WebGLRenderer;
+  try {
+    renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: 'low-power' });
+  } catch {
+    host.classList.add('no-gl');
+    throw new Error('WebGL unavailable');
+  }
+  renderer.setPixelRatio(Math.min(devicePixelRatio, 2));
+
+  const scene = new THREE.Scene();
+  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
+  camera.position.set(1.5, -6.2, 4.6);
+  camera.lookAt(1.5, 0.8, 0);
+
+  const COLS = 220, ROWS = 100, W = 20, H = 9;
+  const pos = new Float32Array(COLS * ROWS * 3);
+  const seed = new Float32Array(COLS * ROWS);
+  for (let j = 0, k = 0; j < ROWS; j++) {
+    for (let i = 0; i < COLS; i++, k++) {
+      pos[k * 3] = (i / (COLS - 1) - 0.5) * W;
+      pos[k * 3 + 1] = (j / (ROWS - 1) - 0.5) * H;
+      seed[k] = Math.random();
+    }
+  }
+  const geo = new THREE.BufferGeometry();
+  geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
+  geo.setAttribute('seed', new THREE.BufferAttribute(seed, 1));
+
+  const isLight = () => {
+    const t = document.documentElement.dataset.theme;
+    return t ? t === 'light' : matchMedia('(prefers-color-scheme: light)').matches;
+  };
+
+  const uniforms = {
+    uTime: { value: 0 },
+    uHot: { value: new THREE.Vector2(5.2, 0.6) },
+    uLight: { value: isLight() ? 1 : 0 },
+    uPx: { value: renderer.getPixelRatio() },
+  };
+
+  const mat = new THREE.ShaderMaterial({
+    uniforms,
+    transparent: true,
+    depthWrite: false,
+    vertexShader: /* glsl */ `
+      attribute float seed;
+      uniform float uTime; uniform vec2 uHot; uniform float uPx;
+      varying float vScore; varying float vSeed;
+      void main() {
+        vec3 p = position;
+        float w = sin(p.x * 0.55 + uTime * 0.35) * 0.22
+                + sin(p.y * 0.9 - uTime * 0.25 + p.x * 0.2) * 0.16
+                + sin((p.x + p.y) * 1.7 + uTime * 0.6) * 0.05;
+        float d = distance(p.xy, uHot);
+        float hot = exp(-d * d * 0.55);
+        p.z = w + hot * 1.4;
+        vScore = clamp(0.2 + (w + 0.4) * 0.5 + hot * 0.8, 0.0, 1.0);
+        vSeed = seed;
+        vec4 mv = modelViewMatrix * vec4(p, 1.0);
+        gl_Position = projectionMatrix * mv;
+        gl_PointSize = (2.2 + vScore * 5.0) * uPx * (7.0 / -mv.z);
+      }`,
+    fragmentShader: /* glsl */ `
+      uniform float uLight;
+      varying float vScore; varying float vSeed;
+      // Polynomial fit of matplotlib's inferno colormap.
+      vec3 inferno(float t) {
+        const vec3 c0 = vec3(0.0002, 0.0016, -0.0194);
+        const vec3 c1 = vec3(0.1065, 0.5640, 3.9327);
+        const vec3 c2 = vec3(11.6024, -3.9728, -15.9423);
+        const vec3 c3 = vec3(-41.7039, 17.4363, 44.3541);
+        const vec3 c4 = vec3(77.1629, -33.4023, -81.8073);
+        const vec3 c5 = vec3(-71.3194, 32.6260, 73.2095);
+        const vec3 c6 = vec3(25.1311, -12.2426, -23.0703);
+        return c0 + t*(c1 + t*(c2 + t*(c3 + t*(c4 + t*(c5 + t*c6)))));
+      }
+      void main() {
+        vec2 c = gl_PointCoord - 0.5;
+        float r = length(c);
+        if (r > 0.5) discard;
+        float t = mix(vScore, clamp(vScore * 0.85 + 0.05, 0.0, 0.88), uLight);
+        vec3 col = inferno(t);
+        float a = smoothstep(0.5, 0.1, r) * mix(0.4 + vScore * 0.9, 0.3 + vScore * 0.9, uLight);
+        gl_FragColor = vec4(col, a * (0.75 + vSeed * 0.25));
+      }`,
+  });
+  scene.add(new THREE.Points(geo, mat));
+
+  // Pointer → plane coordinates.
+  const ray = new THREE.Raycaster();
+  const plane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+  const target = new THREE.Vector2(5.2, 0.6);
+  const hit = new THREE.Vector3();
+  let lastPointer = -1e9;
+  host.closest('.hero')?.addEventListener('pointermove', (e) => {
+    const ev = e as PointerEvent;
+    const r = canvas.getBoundingClientRect();
+    const ndc = new THREE.Vector2(((ev.clientX - r.left) / r.width) * 2 - 1, -((ev.clientY - r.top) / r.height) * 2 + 1);
+    ray.setFromCamera(ndc, camera);
+    if (ray.ray.intersectPlane(plane, hit)) {
+      target.set(THREE.MathUtils.clamp(hit.x, -W / 2, W / 2), THREE.MathUtils.clamp(hit.y, -H / 2, H / 2));
+      lastPointer = performance.now();
+    }
+  });
+
+  function resize() {
+    const { clientWidth: w, clientHeight: h } = host;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.fov = w < 700 ? 52 : 38;
+    camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(host);
+  resize();
+
+  window.addEventListener('themechange', () => { uniforms.uLight.value = isLight() ? 1 : 0; });
+  matchMedia('(prefers-color-scheme: light)').addEventListener('change', () => { uniforms.uLight.value = isLight() ? 1 : 0; });
+
+  // Detection box placement: project the hot spot back to screen space.
+  const proj = new THREE.Vector3();
+  let shownScore = 0.97;
+  function placeBox(t: number) {
+    proj.set(uniforms.uHot.value.x, uniforms.uHot.value.y, 1.0).project(camera);
+    const x = (proj.x * 0.5 + 0.5) * host.clientWidth;
+    const y = (-proj.y * 0.5 + 0.5) * host.clientHeight;
+    det.style.transform = `translate(${x - 60}px, ${y - 40}px)`;
+    const s = 0.9 + 0.09 * (0.5 + 0.5 * Math.sin(t * 1.3));
+    if (Math.abs(s - shownScore) > 0.01) { shownScore = s; scoreEl.textContent = s.toFixed(2); }
+  }
+
+  let visible = true;
+  new IntersectionObserver(([e]) => { visible = e.isIntersecting; }).observe(host);
+
+  const clock = new THREE.Clock();
+  function frame() {
+    const t = clock.getElapsedTime();
+    if (performance.now() - lastPointer > 2500) {
+      // Wander along a slow Lissajous path when nobody is pointing.
+      const right = host.clientWidth < 700 ? 1.5 : 5.2;
+      target.set(Math.sin(t * 0.21) * 2.6 + right, Math.sin(t * 0.33 + 1.1) * 1.6 + 0.6);
+    }
+    uniforms.uHot.value.lerp(target, 0.06);
+    uniforms.uTime.value = t;
+    renderer.render(scene, camera);
+    placeBox(t);
+  }
+
+  if (reduced) {
+    frame();
+    det.classList.add('static');
+  } else {
+    renderer.setAnimationLoop(() => { if (visible && !document.hidden) frame(); });
+  }
+  host.classList.add('ready');
+</script>
+
+<style>
+  .field { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+  canvas { width: 100%; height: 100%; display: block; opacity: 0; transition: opacity 1.4s var(--ease-out); }
+  .field.ready canvas { opacity: 1; }
+  .field.no-gl { background: radial-gradient(60% 70% at 70% 60%, var(--heat-soft), transparent 70%); }
+  .det {
+    position: absolute; left: 0; top: 0; width: 120px; height: 96px;
+    border: 1.5px solid var(--heat); border-radius: 3px;
+    opacity: 0; transition: opacity .8s .9s;
+    will-change: transform;
+  }
+  .field.ready .det { opacity: 0.9; }
+  .det-label {
+    position: absolute; left: -1.5px; top: -22px; padding: 2px 6px;
+    background: var(--heat); color: var(--heat-ink);
+    font-size: 11px; line-height: 16px; white-space: nowrap; border-radius: 2px 2px 0 0;
+  }
+  .det-label b { font-weight: 500; font-variant-numeric: tabular-nums; }
+  @media (max-width: 700px) { .det { display: none; } }
+</style>

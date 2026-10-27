@@ -1,0 +1,85 @@
+---
+import Base from '../layouts/Base.astro';
+import cv from '../data/cv.json';
+---
+<Base title="CV — Amirreza Rahimi" path="/cv">
+  <section class="section">
+    <div class="wrap">
+      <div class="top">
+        <div class="section-head">
+          <span class="eyebrow">Curriculum vitae</span>
+          <h1>{cv.name}</h1>
+          <p>{cv.title} · {cv.location}</p>
+        </div>
+        <a class="btn primary" href="/Amirreza_Rahimi_CV.pdf">Download PDF
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+        </a>
+      </div>
+
+      <div class="layout">
+        <div class="doc">
+          <section>
+            <h2 class="eyebrow">Summary</h2>
+            <p>{cv.summary}</p>
+          </section>
+          <section>
+            <h2 class="eyebrow">Experience</h2>
+            {cv.experience.map((e) => (
+              <div class="entry">
+                <div class="eh"><h3>{e.role}</h3><span class="mono when">{e.dates}</span></div>
+                <p class="org">{e.org} · {e.location}</p>
+                <ul>{e.bullets.map((b) => <li><strong>{b.label}.</strong> {b.text}</li>)}</ul>
+              </div>
+            ))}
+          </section>
+          <section>
+            <h2 class="eyebrow">Education</h2>
+            {cv.education.map((e) => (
+              <div class="entry">
+                <div class="eh"><h3>{e.degree}</h3><span class="mono when">{e.dates}</span></div>
+                <p class="org">{e.school} · {e.location}</p>
+                <p class="note">{e.note}</p>
+              </div>
+            ))}
+          </section>
+          <section>
+            <h2 class="eyebrow">Publication</h2>
+            <div class="entry">
+              <h3><a href={cv.publication.url} target="_blank" rel="noopener">{cv.publication.title} ↗</a></h3>
+              <p class="org">{cv.publication.role} · {cv.publication.venue}</p>
+              <p class="note">{cv.publication.text}</p>
+            </div>
+          </section>
+        </div>
+        <aside class="pdf">
+          <object data="/Amirreza_Rahimi_CV.pdf#view=FitH" type="application/pdf" aria-label="CV PDF preview">
+            <p>PDF preview unavailable. <a href="/Amirreza_Rahimi_CV.pdf">Open the PDF</a>.</p>
+          </object>
+        </aside>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .top { display: flex; flex-wrap: wrap; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 40px; }
+  .top .section-head { margin: 0; }
+  h1 { font-size: var(--step-4); letter-spacing: -0.035em; }
+  .layout { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.9fr); gap: clamp(28px, 4vw, 56px); align-items: start; }
+  .doc { display: grid; gap: 40px; }
+  .doc section { display: grid; gap: 16px; }
+  .doc > section > p { color: var(--fg-2); max-width: 68ch; }
+  .entry { display: grid; gap: 6px; padding-bottom: 18px; border-bottom: 1px solid var(--line); }
+  .eh { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 16px; align-items: baseline; }
+  .entry h3 { font-size: var(--step-1); }
+  .entry h3 a { text-decoration: none; }
+  .entry h3 a:hover { color: var(--heat); }
+  .when { font-size: 12px; color: var(--fg-3); }
+  .org, .note { color: var(--fg-2); font-size: 0.92rem; }
+  .entry ul { margin: 4px 0 0; padding-left: 18px; display: grid; gap: 6px; color: var(--fg-2); font-size: 0.93rem; }
+  .entry strong { color: var(--fg); font-weight: 600; }
+  .pdf { position: sticky; top: 90px; height: calc(100vh - 120px); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-sunk); }
+  .pdf object { width: 100%; height: 100%; }
+  .pdf p { padding: 24px; color: var(--fg-2); }
+  @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } .pdf { display: none; } }
+</style>

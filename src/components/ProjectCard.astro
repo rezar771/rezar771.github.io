@@ -1,0 +1,129 @@
+---
+import type { Project } from '../data/projects';
+import Pipeline from './Pipeline.astro';
+
+interface Props { project: Project; size?: 'lead' | 'normal' }
+const { project: p, size = 'normal' } = Astro.props;
+const m = p.media;
+const visual = m.cover || m.video;
+---
+<a
+  class:list={['card', size, { portrait: m.portrait, 'no-media': !visual }]}
+  href={`/projects/${p.slug}`}
+  style={`--accent:${p.accent}`}
+  data-tags={p.tags.join('|')}
+  data-stack={p.stack.join('|')}
+>
+  <div class="media">
+    {visual ? (
+      <>
+        <img src={m.cover ?? m.poster} alt="" loading="lazy" decoding="async" />
+        {m.video && <video data-src={m.video} muted loop playsinline preload="none" aria-hidden="true"></video>}
+        {m.video && <span class="play mono">▶ hover to play</span>}
+      </>
+    ) : (
+      <div class="schematic">
+        <div class="sc-top">
+          {p.metrics[0] && (
+            <div class="hero-num">
+              <span class="num">{p.metrics[0].value}</span>
+              <span class="mono">{p.metrics[0].label}</span>
+            </div>
+          )}
+          {p.chart && (
+            <div class="mini" aria-hidden="true">
+              {p.chart.bars.map((b) => (
+                <span class:list={{ hl: b.highlight }} style={`--h:${Math.max(b.value / p.chart!.max, 0.04) * 100}%`}></span>
+              ))}
+            </div>
+          )}
+        </div>
+        {p.pipeline.length > 0 && <Pipeline steps={size === 'lead' ? p.pipeline : p.pipeline.slice(0, 4)} compact />}
+      </div>
+    )}
+  </div>
+  <div class="body">
+    <div class="meta mono"><span>{p.year}</span><span>·</span><span>{p.context}</span></div>
+    <h3>{p.title}</h3>
+    <p>{p.tagline}</p>
+    <div class="chips">{p.stack.slice(0, 4).map((s) => <span class="chip">{s}</span>)}</div>
+  </div>
+</a>
+
+<script>
+  // Hover/focus previews: lazy-load the loop on first intent, pause when the pointer leaves.
+  document.querySelectorAll<HTMLAnchorElement>('.card').forEach((card) => {
+    const v = card.querySelector('video');
+    if (!v) return;
+    const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const start = () => {
+      if (reduced) return;
+      if (!v.src) v.src = v.dataset.src!;
+      card.classList.add('playing');
+      v.play().catch(() => card.classList.remove('playing'));
+    };
+    const stop = () => { card.classList.remove('playing'); v.pause(); };
+    card.addEventListener('pointerenter', start);
+    card.addEventListener('focus', start);
+    card.addEventListener('pointerleave', stop);
+    card.addEventListener('blur', stop);
+  });
+</script>
+
+<style>
+  .card {
+    position: relative; display: grid; grid-template-rows: auto 1fr; min-width: 0;
+    text-decoration: none; color: inherit;
+    border: 1px solid var(--line); border-radius: var(--radius);
+    background: var(--bg-raised); overflow: hidden;
+    transition: border-color .35s, transform .5s var(--ease-out), box-shadow .5s var(--ease-out);
+  }
+  .card:hover, .card:focus-visible {
+    border-color: color-mix(in oklab, var(--accent) 55%, var(--line));
+    transform: translateY(-4px);
+    box-shadow: 0 24px 60px -30px color-mix(in oklab, var(--accent) 60%, transparent);
+  }
+  .media { position: relative; aspect-ratio: 16 / 10; max-width: 100%; overflow: hidden; background: var(--bg-sunk); border-bottom: 1px solid var(--line); }
+  .lead .media { aspect-ratio: 16 / 9; }
+  .media img, .media video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: top center; transition: transform 1.2s var(--ease-out), opacity .5s; }
+  .portrait .media img, .portrait .media video { object-fit: contain; object-position: center; background: #0b0b14; }
+  .media video { opacity: 0; }
+  .card.playing video { opacity: 1; }
+  .card:hover .media img { transform: scale(1.03); }
+  .play {
+    position: absolute; right: 10px; bottom: 10px; padding: 4px 8px; border-radius: 4px;
+    font-size: 11px; background: rgb(0 0 0 / .6); color: #fff; backdrop-filter: blur(6px);
+    transition: opacity .3s;
+  }
+  .card.playing .play { opacity: 0; }
+  @media (hover: none) { .play { display: none; } }
+
+  .schematic {
+    position: absolute; inset: 0; display: grid; align-content: center; gap: 18px; padding: 22px;
+    background:
+      radial-gradient(80% 90% at 85% 15%, color-mix(in oklab, var(--accent) 22%, transparent), transparent 70%),
+      repeating-linear-gradient(90deg, transparent 0 23px, color-mix(in oklab, var(--line) 60%, transparent) 23px 24px),
+      var(--bg-sunk);
+  }
+  .sc-top { display: flex; justify-content: space-between; align-items: end; gap: 20px; }
+  .mini { display: flex; align-items: end; gap: 6px; height: 72px; flex: 0 1 180px; }
+  .mini span {
+    flex: 1; height: var(--h); border-radius: 3px 3px 0 0;
+    background: color-mix(in oklab, var(--fg-3) 45%, transparent);
+    transform-origin: bottom; animation: barup 1.2s var(--ease-out) both;
+  }
+  .mini span:nth-child(2) { animation-delay: .08s; } .mini span:nth-child(3) { animation-delay: .16s; }
+  .mini span:nth-child(4) { animation-delay: .24s; } .mini span:nth-child(5) { animation-delay: .32s; }
+  .mini span.hl { background: var(--accent); }
+  @keyframes barup { from { transform: scaleY(0.05); } }
+  .hero-num { display: grid; gap: 4px; }
+  .hero-num .num { font: 800 clamp(2rem, 1.5rem + 2vw, 3.2rem)/1 var(--font-display); color: var(--accent); letter-spacing: -0.03em; }
+  .hero-num .mono { font-size: 12px; color: var(--fg-2); text-transform: uppercase; letter-spacing: .1em; }
+
+  .body { display: grid; gap: 10px; align-content: start; padding: 20px 22px 22px; }
+  .meta { display: flex; flex-wrap: wrap; gap: 6px; font-size: 12px; color: var(--fg-3); }
+  h3 { font-size: var(--step-1); }
+  .lead h3 { font-size: var(--step-2); }
+  .body p { color: var(--fg-2); font-size: 0.95rem; }
+  .chips { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; }
+</style>

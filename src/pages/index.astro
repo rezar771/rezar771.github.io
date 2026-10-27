@@ -1,0 +1,246 @@
+---
+import Base from '../layouts/Base.astro';
+import HeatField from '../components/HeatField.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import SkillMap from '../components/SkillMap.astro';
+import cv from '../data/cv.json';
+import { projects } from '../data/projects';
+
+const bySlug = (s: string) => projects.find((p) => p.slug === s)!;
+const rowA = ['virtual-try-on', 'signalscope'].map(bySlug);
+const rowB = ['weldguard', 'road-anomaly', 'grounded-crm-assistant'].map(bySlug);
+
+const stats = [
+  { v: '20+', l: 'clients using the Virtual Try-On I work on' },
+  { v: 'ACL 2026', l: 'published SemEval paper, co-author' },
+  { v: '$0.014', l: 'per generated try-on image, FP8 on a 24 GB GPU' },
+  { v: String(projects.length), l: 'AI and ML projects on this site' },
+];
+---
+<Base>
+  <section class="hero">
+    <HeatField />
+    <div class="wrap hero-inner">
+      <p class="status mono"><span class="live" aria-hidden="true"></span>Open to AI / ML engineering roles · Torino, hybrid or remote</p>
+      <h1>
+        <span class="l1">Amirreza Rahimi</span>
+        <span class="l2">AI engineer for vision, generative and language systems that ship.</span>
+      </h1>
+      <p class="lede">
+        Full-Stack AI Engineer at Ustyle and MSc graduate in Computer Engineering (AI) from Politecnico di Torino.
+        I take models from research to production: diffusion-based virtual try-on, anomaly detection, grounded RAG and local LLM agents.
+      </p>
+      <div class="cta">
+        <a class="btn primary" href="#work">See the work
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+        </a>
+        <a class="btn" href="/Amirreza_Rahimi_CV.pdf">Download CV
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v12M7 10l5 5 5-5M5 21h14"/></svg>
+        </a>
+        <a class="btn" href={cv.github} target="_blank" rel="noopener">GitHub ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats-band" aria-label="Highlights">
+    <div class="wrap stats">
+      {stats.map((s) => (
+        <div class="stat">
+          <span class="v num">{s.v}</span>
+          <span class="l">{s.l}</span>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="section" id="work">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Selected work</span>
+        <h2>Models in production, measured honestly.</h2>
+        <p>Each project page shows the pipeline, the numbers and the trade-offs. Hover a card to preview its demo video.</p>
+      </div>
+      <div class="bento">
+        <div class="a1 reveal"><ProjectCard project={rowA[0]} size="lead" /></div>
+        <div class="a2 reveal"><ProjectCard project={rowA[1]} size="lead" /></div>
+        {rowB.map((p) => <div class="b reveal"><ProjectCard project={p} /></div>)}
+      </div>
+      <div class="more">
+        <a class="btn" href="/projects">All {projects.length} projects →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="experience">
+    <div class="wrap two">
+      <div class="section-head sticky">
+        <span class="eyebrow">Experience &amp; education</span>
+        <h2>From robotics team lead to production AI.</h2>
+        <p>Building on embedded vision, then deep learning research, now shipping AI features used by paying clients.</p>
+        <a class="btn" href="/cv">Full CV →</a>
+      </div>
+      <ol class="timeline">
+        {cv.experience.map((e) => (
+          <li class:list={['reveal', { current: e.current }]}>
+            <span class="when mono">{e.dates}</span>
+            <h3>{e.role}</h3>
+            <p class="org">{e.org} · {e.location}</p>
+            <ul>{e.bullets.slice(0, 3).map((b) => <li><strong>{b.label}.</strong> {b.text}</li>)}</ul>
+          </li>
+        ))}
+        {cv.education.map((e) => (
+          <li class="reveal edu">
+            <span class="when mono">{e.dates}</span>
+            <h3>{e.degree}</h3>
+            <p class="org">{e.school} · {e.location}</p>
+            <p class="note">{e.note}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" id="research">
+    <div class="wrap">
+      <a class="pub reveal" href={cv.publication.url} target="_blank" rel="noopener">
+        <span class="eyebrow">Publication · {cv.publication.venue}</span>
+        <h2>{cv.publication.title}</h2>
+        <p>{cv.publication.text}</p>
+        <span class="pub-link mono">{cv.publication.role} · aclanthology.org/2026.semeval-1.372 ↗</span>
+      </a>
+    </div>
+  </section>
+
+  <section class="section" id="skills">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Toolbox</span>
+        <h2>Skills, traced to the projects that use them.</h2>
+        <p>Hover or tap a skill to see where it was used. The number is how many projects use it.</p>
+      </div>
+      <SkillMap />
+      <dl class="groups">
+        {Object.values(cv.skills).map((g) => (
+          <div><dt class="mono">{g.label}</dt><dd>{g.items.join(' · ')}</dd></div>
+        ))}
+        <div><dt class="mono">Languages</dt><dd>{cv.languages.map((l) => `${l.name} (${l.level})`).join(' · ')}</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section class="section contact" id="contact">
+    <div class="wrap contact-inner reveal">
+      <span class="eyebrow">Contact</span>
+      <h2>Hiring for AI, computer vision or LLM work?</h2>
+      <p>I'm based in Torino and open to on-site, hybrid or remote roles in Italy and across Europe.</p>
+      <div class="email-row">
+        <a class="email" href={`mailto:${cv.email}`}>{cv.email}</a>
+        <button class="btn" type="button" id="copy-email" data-email={cv.email}>Copy</button>
+      </div>
+      <div class="cta">
+        <a class="btn" href={cv.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
+        <a class="btn" href={cv.github} target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href="/Amirreza_Rahimi_CV.pdf">CV (PDF)</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const btn = document.getElementById('copy-email') as HTMLButtonElement | null;
+  btn?.addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(btn.dataset.email!); btn.textContent = 'Copied'; }
+    catch { getSelection()?.selectAllChildren(document.querySelector('.email')!); btn.textContent = 'Press ⌘C'; }
+    setTimeout(() => (btn.textContent = 'Copy'), 2000);
+  });
+</script>
+
+<style>
+  .hero { position: relative; overflow: hidden; border-bottom: 1px solid var(--line); isolation: isolate; }
+  .hero::after {
+    content: ''; position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: linear-gradient(90deg, var(--bg) 0%, color-mix(in oklab, var(--bg) 70%, transparent) 38%, transparent 65%);
+  }
+  .hero :global(.field) { z-index: -2; }
+  .hero-inner { position: relative; display: grid; gap: 28px; padding-block: clamp(72px, 12vw, 150px) clamp(64px, 9vw, 120px); max-width: calc(var(--wrap) + 64px); }
+  .status { display: inline-flex; align-items: center; gap: 10px; font-size: var(--step--1); color: var(--fg-2); }
+  .live { width: 8px; height: 8px; border-radius: 50%; background: var(--good); box-shadow: 0 0 0 0 var(--good); animation: ping 2.4s infinite; }
+  @keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--good) 60%, transparent); } 70%, 100% { box-shadow: 0 0 0 10px transparent; } }
+  h1 { display: grid; gap: 14px; }
+  .l2 { max-width: 15ch; }
+  .l1 { font-size: var(--step--1); font-family: var(--font-mono); font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--heat); }
+  .l2 { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.035em; line-height: 0.98; }
+  .lede { max-width: 56ch; color: var(--fg-2); font-size: var(--step-1); line-height: 1.5; }
+  .cta { display: flex; flex-wrap: wrap; gap: 10px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-inner > * { animation: enter 1s var(--ease-out) both; }
+    .hero-inner > :nth-child(2) { animation-delay: .08s; }
+    .hero-inner > :nth-child(3) { animation-delay: .16s; }
+    .hero-inner > :nth-child(4) { animation-delay: .24s; }
+  }
+  @keyframes enter { from { opacity: .001; transform: translateY(18px); filter: blur(6px); } }
+  @media (max-width: 700px) { .hero::after { background: linear-gradient(180deg, transparent 0%, color-mix(in oklab, var(--bg) 80%, transparent) 45%, var(--bg) 100%); } }
+
+  .stats-band { border-bottom: 1px solid var(--line); background: var(--bg-sunk); }
+  .stats { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .stat { display: grid; gap: 6px; padding: 28px 20px 28px 0; }
+  .stat + .stat { padding-left: 20px; border-left: 1px solid var(--line); }
+  .stat .v { font: 800 var(--step-2)/1 var(--font-display); letter-spacing: -0.02em; }
+  .stat .l { font-size: 0.85rem; color: var(--fg-3); max-width: 26ch; }
+  @media (max-width: 820px) {
+    .stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .stat:nth-child(3) { padding-left: 0; border-left: 0; }
+    .stat:nth-child(n + 3) { border-top: 1px solid var(--line); }
+  }
+
+  .bento { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: 18px; }
+  .bento > div { display: grid; min-width: 0; }
+  .a1 { grid-column: span 7; } .a2 { grid-column: span 5; } .b { grid-column: span 4; }
+  @media (max-width: 960px) { .a1, .a2 { grid-column: span 12; } .b { grid-column: span 6; } .b:last-child { grid-column: span 12; } }
+  @media (max-width: 620px) { .b, .b:last-child { grid-column: span 12; } }
+  .more { margin-top: 28px; display: flex; justify-content: center; }
+
+  .two { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  .sticky { position: sticky; top: 100px; }
+  .sticky .btn { justify-self: start; margin-top: 6px; }
+  @media (max-width: 880px) { .two { grid-template-columns: 1fr; } .sticky { position: static; } }
+  .timeline { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; border-left: 1px solid var(--line-strong); }
+  .timeline > li { position: relative; display: grid; gap: 6px; padding: 0 0 40px 28px; }
+  .timeline > li::before {
+    content: ''; position: absolute; left: -6px; top: 6px; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--bg); border: 2px solid var(--line-strong);
+  }
+  .timeline > li.current::before { border-color: var(--heat); background: var(--heat); box-shadow: 0 0 0 5px var(--heat-soft); }
+  .timeline > li.edu::before { border-radius: 2px; }
+  .when { font-size: 12px; color: var(--fg-3); letter-spacing: .04em; }
+  .current .when { color: var(--heat); }
+  .timeline h3 { font-size: var(--step-1); }
+  .org { color: var(--fg-2); font-size: 0.92rem; }
+  .note { color: var(--fg-2); font-size: 0.92rem; }
+  .timeline ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 6px; color: var(--fg-2); font-size: 0.93rem; max-width: 70ch; }
+  .timeline ul strong { color: var(--fg); font-weight: 600; }
+
+  .pub {
+    display: grid; gap: 14px; text-decoration: none; padding: clamp(24px, 4vw, 48px);
+    border: 1px solid var(--line); border-radius: var(--radius);
+    background: radial-gradient(70% 120% at 100% 0%, var(--heat-soft), transparent 60%), var(--bg-raised);
+    transition: border-color .3s;
+  }
+  .pub:hover { border-color: var(--heat); }
+  .pub h2 { font-size: var(--step-2); max-width: 30ch; }
+  .pub p { color: var(--fg-2); max-width: 62ch; }
+  .pub-link { font-size: 12px; color: var(--heat); }
+
+  .groups { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 22px 40px; margin: 56px 0 0; padding-top: 32px; border-top: 1px solid var(--line); }
+  .groups div { display: grid; gap: 6px; min-width: 0; }
+  .groups dt { font-size: 11px; text-transform: uppercase; letter-spacing: .1em; color: var(--fg-3); }
+  .groups dd { margin: 0; font-size: 0.9rem; color: var(--fg-2); }
+
+  .contact { background: radial-gradient(60% 80% at 50% 120%, var(--heat-soft), transparent 70%), var(--bg); }
+  .contact-inner { display: grid; gap: 18px; justify-items: start; }
+  .contact h2 { font-size: var(--step-3); max-width: 20ch; }
+  .contact p { color: var(--fg-2); max-width: 56ch; }
+  .email-row { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .email { font: 700 var(--step-2)/1.1 var(--font-display); text-decoration: none; letter-spacing: -0.02em; overflow-wrap: anywhere; border-bottom: 2px solid var(--heat); }
+  .email:hover { color: var(--heat); }
+</style>

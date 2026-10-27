@@ -1,0 +1,304 @@
+{
+  "name": "Amirreza Rahimi",
+  "title": "AI / Machine Learning Engineer",
+  "summary": "AI and Machine Learning Engineer with hands-on experience in Large Language Models (LLMs), Vision-Language Models (VLMs), Computer Vision, and Deep Learning pipelines. Currently a Full-Stack AI Engineer at Ustyle S.r.l. developing 2D/3D Virtual Try-On models and synthetic data generation pipelines. Co-author of a published SemEval 2026 (ACL) shared-task paper. Proficient in Python, PyTorch, TensorFlow, MLOps, and cloud platforms (AWS, Azure, GCP). Strong background in research, model integration, and production-grade AI systems.",
+  "location": "Torino, Italy",
+  "email": "amirrezarahimi771@gmail.com",
+  "linkedin": "https://www.linkedin.com/in/amirrezarahimi771",
+  "github": "https://github.com/rezar771",
+  "experience": [
+    {
+      "role": "Full-Stack AI Engineer",
+      "org": "Ustyle S.r.l.",
+      "location": "Torino, Italy",
+      "dates": "Jan 2026 – Present",
+      "current": true,
+      "bullets": [
+        {
+          "label": "Production Software & ML",
+          "text": "Owned client-facing AI workflows used by more than 20 clients, integrating models into product applications with Python and FastAPI and handling testing, containerized deployment, monitoring, troubleshooting, and improvement."
+        },
+        {
+          "label": "LLM & VLM Integration",
+          "text": "Leveraging Large Language Models and Vision-Language Models for advanced data pre-processing, annotation, and analysis."
+        },
+        {
+          "label": "Production GenAI Platforms",
+          "text": "Use Google Vertex AI and Gemini models daily in production workflows at Ustyle; also experienced integrating OpenAI models into deployed project workflows."
+        },
+        {
+          "label": "Full-Stack Web Platform",
+          "text": "Developed the ustyle.it website using Next.js, Node.js, React, and FastAPI, connecting user-facing product flows with backend AI capabilities."
+        },
+        {
+          "label": "Local LLM & GPU Operations",
+          "text": "Ran and evaluated multiple local LLMs with GPU-backed inference, handling model serving, resource constraints, configuration, and runtime troubleshooting."
+        },
+        {
+          "label": "Model Monitoring & Retraining",
+          "text": "Supported production ML monitoring, performance evaluation, and automated retraining workflows for Ustyle AI components."
+        },
+        {
+          "label": "E-commerce AI Solutions",
+          "text": "Designing and shipping AI-driven features for Shopify and WooCommerce storefronts."
+        }
+      ]
+    },
+    {
+      "role": "AI & Computer Vision Engineer (Thesis Intern)",
+      "org": "Ustyle S.r.l.",
+      "location": "Torino, Italy",
+      "dates": "Sep 2025 – Jan 2026",
+      "bullets": [
+        {
+          "label": "AI & Computer Vision Research",
+          "text": "Developed and analyzed 2D and 3D Virtual Try-On models and synthetic data generation pipelines for fashion e-commerce."
+        },
+        {
+          "label": "Body Segmentation",
+          "text": "Built human body segmentation pipelines to isolate body regions and garments, providing accurate masks for the Virtual Try-On models."
+        }
+      ]
+    },
+    {
+      "role": "Robotics Team Lead",
+      "org": "Salam High School",
+      "location": "Tehran, Iran",
+      "dates": "Jul 2019 – Nov 2021",
+      "bullets": [
+        {
+          "label": "AI & Computer Vision (Core Focus)",
+          "text": "Designed and integrated computer-vision pipelines on-board the robots for real-time detection of the ball, field boundaries, and opponent robots, enabling autonomous decision-making during competition gameplay."
+        },
+        {
+          "label": "AI-Driven Gameplay",
+          "text": "Developed perception-to-action logic combining vision-based object tracking with autonomous strategy algorithms to improve competitive performance."
+        },
+        {
+          "label": "Team Leadership",
+          "text": "Mentored and led team members through the full engineering lifecycle of the robots, from concept and prototyping to competition."
+        },
+        {
+          "label": "Hardware Design",
+          "text": "Designed and developed custom Printed Circuit Boards (PCBs) for the robots' electronic components and sensor arrays."
+        },
+        {
+          "label": "Embedded Software Engineering",
+          "text": "Programmed core robot logic, movement control, and autonomous gameplay algorithms in C++ on embedded platforms."
+        }
+      ]
+    }
+  ],
+  "education": [
+    {
+      "degree": "MSc Computer Engineering — Artificial Intelligence",
+      "school": "Politecnico di Torino",
+      "location": "Torino, Italy",
+      "dates": "Graduated July 2026",
+      "note": "Thesis: Pose Transfer and Layer-Aware Virtual Try-On for Multi-Garment Outfit Generation"
+    },
+    {
+      "degree": "BSc Computer Engineering",
+      "school": "Islamic Azad University, Science and Research Branch",
+      "location": "Tehran, Iran",
+      "dates": "2018 – 2022",
+      "note": "GPA 16.63 / 20 (last two years 18.03 / 20)"
+    }
+  ],
+  "publication": {
+    "title": "SemEval 2026 Task 1: MWAHAHA — Models Write Automatic Humor And Humans Annotate",
+    "venue": "SemEval 2026 · ACL Anthology",
+    "role": "Co-author",
+    "text": "Shared-task paper on computational humor generation with LLMs, part of the first SemEval task dedicated to humor generation.",
+    "url": "https://aclanthology.org/2026.semeval-1.372"
+  },
+  "skills": {
+    "languages": {
+      "label": "Programming Languages",
+      "items": [
+        "Python",
+        "C",
+        "C++",
+        "JavaScript",
+        "SQL",
+        "TypeScript (Beginner)"
+      ]
+    },
+    "ai_ml": {
+      "label": "Artificial Intelligence & Machine Learning",
+      "items": [
+        "Machine Learning",
+        "Deep Learning",
+        "Computer Vision",
+        "Data Science",
+        "Large Language Models (LLMs)",
+        "Vision-Language Models (VLMs)",
+        "Generative AI",
+        "Diffusion Models",
+        "Virtual Try-On",
+        "Semantic Segmentation",
+        "Anomaly Detection"
+      ]
+    },
+    "frameworks": {
+      "label": "Frameworks & Libraries",
+      "items": [
+        "PyTorch",
+        "TensorFlow",
+        "Hugging Face Transformers",
+        "Scikit-learn",
+        "NumPy",
+        "Pandas",
+        "Matplotlib",
+        "OpenCV"
+      ]
+    },
+    "fullstack_web": {
+      "label": "Full-Stack Web",
+      "items": [
+        "React",
+        "Next.js",
+        "Node.js",
+        "FastAPI",
+        "REST API Design",
+        "Angular (Beginner)"
+      ]
+    },
+    "cloud_devops": {
+      "label": "Cloud Exposure & DevOps",
+      "items": [
+        "Hands-on exposure to services across Amazon Web Services (AWS)",
+        "Microsoft Azure",
+        "and Google Cloud Platform (GCP); Docker",
+        "Git",
+        "GitHub",
+        "CI/CD",
+        "MLOps",
+        "MLflow",
+        "ML monitoring",
+        "automated retraining workflows"
+      ]
+    },
+    "bigdata": {
+      "label": "Big Data & Distributed Computing",
+      "items": [
+        "Apache Spark",
+        "Hadoop"
+      ]
+    },
+    "db_tools": {
+      "label": "Databases & Tools",
+      "items": [
+        "PostgreSQL",
+        "MongoDB",
+        "Microsoft SQL Server",
+        "SQL",
+        "Jira",
+        "Arduino",
+        "Linux"
+      ]
+    },
+    "ecommerce": {
+      "label": "E-commerce Platforms",
+      "items": [
+        "Shopify",
+        "WooCommerce"
+      ]
+    },
+    "agentic_engineering": {
+      "label": "Agentic AI Engineering",
+      "items": [
+        "Python agents",
+        "multi-step workflows",
+        "intent routing",
+        "tool and API integration",
+        "persistent memory",
+        "human review",
+        "RAG",
+        "prompt engineering",
+        "local LLM inference with Ollama",
+        "Claude Code",
+        "Codex",
+        "Pytest",
+        "monitoring and observability"
+      ]
+    },
+    "genai_platforms": {
+      "label": "Generative AI Platforms & Orchestration",
+      "items": [
+        "Google Vertex AI",
+        "Gemini models",
+        "OpenAI API",
+        "LangChain",
+        "LangGraph",
+        "Retrieval-Augmented Generation (RAG)",
+        "vector databases",
+        "FAISS",
+        "Ollama"
+      ]
+    }
+  },
+  "projects": {
+    "thesis_vto": {
+      "name": "Pose Transfer and Layer-Aware Virtual Try-On for Multi-Garment Outfits (Master's Thesis)",
+      "bullets": [
+        "Built a pose-transfer, layer-aware Virtual Try-On pipeline supporting multi-garment outfit composition.",
+        "Combined diffusion-based generative models, VLMs, and synthetic data generation for robust garment transfer."
+      ]
+    },
+    "segmentation": {
+      "name": "Semantic Segmentation and Anomaly Detection",
+      "bullets": [
+        "Trained ERFNet for semantic segmentation on Cityscapes and evaluated on multiple Out-of-Distribution benchmarks.",
+        "Implemented anomaly detection using Mahalanobis distance over encoder features with PCA.",
+        "Benchmarked against MSP, MaxLogit, Max Entropy, and void-class training baselines."
+      ]
+    },
+    "agenticmail": {
+      "name": "agenticMail — Local-LLM Gmail Agent via Telegram",
+      "bullets": [
+        "Built a privacy-first agentic email assistant powered by a local Llama 3.2 (3B) model via Ollama, controlled through a Telegram bot.",
+        "Implemented natural-language intent routing, hybrid rule + LLM importance scoring, context-aware reply generation, and draft-review workflows.",
+        "Integrated Gmail API with bi-directional attachment handling and persistent in-chat UI; zero external API calls, full on-device inference."
+      ]
+    },
+    "grounded_crm": {
+      "name": "Grounded CRM Assistant — Local RAG Knowledge System",
+      "bullets": [
+        "Shipped and used by two medium-sized companies, with end-to-end ownership from data ingestion and retrieval design to validation and release.",
+        "Built a local AI-powered CRM assistant using Python, Ollama, BM25, optional FAISS/vector embeddings, Sentence Transformers, SQLite, and Streamlit.",
+        "Implemented hybrid retrieval, Reciprocal Rank Fusion, Maximal Marginal Relevance reranking, entity resolution, grounded citations, conflict detection, and unsupported-question refusal.",
+        "Added prompt-injection detection, untrusted-content isolation, PII-aware tracing, ingestion for CSV/JSON/TXT/ZIP sources, and 70 passing Pytest tests."
+      ]
+    },
+    "weldguard": {
+      "name": "WeldGuard — Multimodal AI Weld Defect Detection",
+      "bullets": [
+        "Designed an end-to-end multimodal ML platform fusing thermal video, audio, and sensor data to classify welds across 7 defect categories.",
+        "Built a hierarchical classifier (binary defect/good then multiclass) with isotonic probability calibration and config-invariant feature engineering.",
+        "Shipped a 10-page Streamlit dashboard with real-time webcam/phone-camera inference and a Claude-powered LLM assistant for defect explanation."
+      ]
+    },
+    "soccerbot": {
+      "name": "Lightweight Autonomous Soccer-Player Robot",
+      "bullets": [
+        "Designed and implemented an autonomous soccer-playing robot with onboard perception and control.",
+        "Focused on movement algorithms and lightweight AI behavior for embedded hardware."
+      ]
+    }
+  },
+  "languages": [
+    {
+      "name": "English",
+      "level": "Professional"
+    },
+    {
+      "name": "Italian",
+      "level": "Elementary (A2)"
+    },
+    {
+      "name": "Persian",
+      "level": "Native"
+    }
+  ]
+}
