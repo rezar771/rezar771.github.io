@@ -21,7 +21,7 @@ const stats = [
   <section class="hero">
     <HeatField />
     <div class="wrap hero-inner">
-      <p class="status mono"><span class="live" aria-hidden="true"></span>Open to AI / ML engineering roles · Torino, hybrid or remote</p>
+      <p class="status mono"><span class="live" aria-hidden="true"></span>Torino, Italy · Computer Vision · Generative AI · LLMs</p>
       <h1>
         <span class="l1">Amirreza Rahimi</span>
         <span class="l2">AI engineer for vision, generative and language systems that ship.</span>
@@ -131,8 +131,8 @@ const stats = [
   <section class="section contact" id="contact">
     <div class="wrap contact-inner reveal">
       <span class="eyebrow">Contact</span>
-      <h2>Hiring for AI, computer vision or LLM work?</h2>
-      <p>I'm based in Torino and open to on-site, hybrid or remote roles in Italy and across Europe.</p>
+      <h2>Let's talk about AI, computer vision or LLM systems.</h2>
+      <p>Based in Torino, Italy. Email is the fastest way to reach me.</p>
       <div class="email-row">
         <a class="email" href={`mailto:${cv.email}`}>{cv.email}</a>
         <button class="btn" type="button" id="copy-email" data-email={cv.email}>Copy</button>
@@ -164,8 +164,7 @@ const stats = [
   .hero :global(.field) { z-index: -2; }
   .hero-inner { position: relative; display: grid; gap: 28px; padding-block: clamp(72px, 12vw, 150px) clamp(64px, 9vw, 120px); max-width: calc(var(--wrap) + 64px); }
   .status { display: inline-flex; align-items: center; gap: 10px; font-size: var(--step--1); color: var(--fg-2); }
-  .live { width: 8px; height: 8px; border-radius: 50%; background: var(--good); box-shadow: 0 0 0 0 var(--good); animation: ping 2.4s infinite; }
-  @keyframes ping { 0% { box-shadow: 0 0 0 0 color-mix(in oklab, var(--good) 60%, transparent); } 70%, 100% { box-shadow: 0 0 0 10px transparent; } }
+  .live { width: 8px; height: 8px; border-radius: 50%; background: var(--heat); }
   h1 { display: grid; gap: 14px; }
   .l2 { max-width: 15ch; }
   .l1 { font-size: var(--step--1); font-family: var(--font-mono); font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--heat); }
