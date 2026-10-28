@@ -33,21 +33,40 @@ import cv from '../data/cv.json';
             ))}
           </section>
           <section>
+            <h2 class="eyebrow">Research experience</h2>
+            {cv.research.map((r) => (
+              <div class="entry">
+                <div class="eh"><h3>{r.title}</h3><span class="mono when">{r.dates}</span></div>
+                <p class="org">{r.kind}</p>
+                <ul>{r.bullets.map((b) => <li>{b}</li>)}</ul>
+                {r.note && <p class="note">{r.note}</p>}
+              </div>
+            ))}
+          </section>
+          <section>
             <h2 class="eyebrow">Education</h2>
             {cv.education.map((e) => (
               <div class="entry">
                 <div class="eh"><h3>{e.degree}</h3><span class="mono when">{e.dates}</span></div>
                 <p class="org">{e.school} · {e.location}</p>
-                <p class="note">{e.note}</p>
+                <ul>{e.notes.map((n) => <li>{n}</li>)}</ul>
               </div>
             ))}
+          </section>
+          <section>
+            <h2 class="eyebrow">Honors &amp; awards</h2>
+            <ul class="honors">
+              {cv.honors.map((h) => (
+                <li><span class="mono when">{h.year}</span><span><strong>{h.place}</strong>, {h.text}</span></li>
+              ))}
+            </ul>
           </section>
           <section>
             <h2 class="eyebrow">Publication</h2>
             <div class="entry">
               <h3><a href={cv.publication.url} target="_blank" rel="noopener">{cv.publication.title} ↗</a></h3>
-              <p class="org">{cv.publication.role} · {cv.publication.venue}</p>
-              <p class="note">{cv.publication.text}</p>
+              <p class="org">{cv.publication.authors}</p>
+              <p class="note">{cv.publication.venue} · doi:{cv.publication.doi}</p>
             </div>
           </section>
         </div>
@@ -78,6 +97,9 @@ import cv from '../data/cv.json';
   .org, .note { color: var(--fg-2); font-size: 0.92rem; }
   .entry ul { margin: 4px 0 0; padding-left: 18px; display: grid; gap: 6px; color: var(--fg-2); font-size: 0.93rem; }
   .entry strong { color: var(--fg); font-weight: 600; }
+  .honors { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; font-size: 0.93rem; color: var(--fg-2); }
+  .honors li { display: grid; grid-template-columns: 48px minmax(0, 1fr); gap: 12px; align-items: baseline; }
+  .honors strong { color: var(--fg); font-weight: 600; }
   .pdf { position: sticky; top: 90px; height: calc(100vh - 120px); border: 1px solid var(--line); border-radius: var(--radius); overflow: hidden; background: var(--bg-sunk); }
   .pdf object { width: 100%; height: 100%; }
   .pdf p { padding: 24px; color: var(--fg-2); }

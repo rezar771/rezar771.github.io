@@ -95,21 +95,90 @@
       "school": "Politecnico di Torino",
       "location": "Torino, Italy",
       "dates": "Graduated July 2026",
-      "note": "Thesis: Pose Transfer and Layer-Aware Virtual Try-On for Multi-Garment Outfit Generation"
+      "notes": [
+        "Thesis: Pose Transfer and Layer-Aware Virtual Try-On for Multi-Garment Outfit Generation.",
+        "Supervisor: Prof. Filippo Gabriele Pratticò."
+      ]
     },
     {
       "degree": "BSc Computer Engineering",
       "school": "Islamic Azad University, Science and Research Branch",
       "location": "Tehran, Iran",
       "dates": "2018 – 2022",
-      "note": "GPA 16.63 / 20 (last two years 18.03 / 20)"
+      "notes": [
+        "GPA 16.63 / 20; final two years 18.03 / 20.",
+        "Final project: Lightweight Autonomous Soccer-Player Robot."
+      ]
+    }
+  ],
+  "research": [
+    {
+      "title": "Pose Transfer and Layer-Aware Virtual Try-On for Multi-Garment Outfit Generation",
+      "kind": "MSc thesis",
+      "dates": "2025 – 2026",
+      "url": "/projects/virtual-try-on",
+      "bullets": [
+        "Developed a multi-garment virtual try-on pipeline supporting pose transfer and garment layering.",
+        "Integrated diffusion-based generation, VLM-assisted analysis, body segmentation and synthetic-data workflows.",
+        "Studied how complex visual outputs can be made inspectable and useful in fashion e-commerce systems."
+      ],
+      "note": "Supervisor: Prof. Filippo Gabriele Pratticò"
+    },
+    {
+      "title": "Computational Humor Generation with Large Language Models",
+      "kind": "SemEval 2026 · Task 1: MWAHAHA",
+      "dates": "2025 – 2026",
+      "url": "https://aclanthology.org/2026.semeval-1.372",
+      "bullets": [
+        "Co-developed the MINDS system for Subtask A using Llama 3.1, Gemma 2 and Qwen 2.5.",
+        "Evaluated retrieval-augmented generation and synthetic Direct Preference Optimization with round-robin LLM judging.",
+        "Contributed to the shared-task paper and the team's second-place result."
+      ]
+    },
+    {
+      "title": "Lightweight Autonomous Soccer-Player Robot",
+      "kind": "BSc final project",
+      "dates": "2022",
+      "url": "",
+      "bullets": [
+        "Designed an autonomous mobile robot integrating onboard perception, motion planning and embedded control.",
+        "Implemented real-time computer vision for ball, field-boundary and opponent detection, linked to robot actions."
+      ]
+    }
+  ],
+  "honors": [
+    {
+      "year": "2026",
+      "place": "2nd place",
+      "text": "SemEval 2026 Task 1: MWAHAHA, shared task on automatic humor generation"
+    },
+    {
+      "year": "2018",
+      "place": "Top 2%",
+      "text": "Iran's National University Entrance Exam"
+    },
+    {
+      "year": "2017",
+      "place": "1st place",
+      "text": "International RoboCup IranOpen, Junior Soccer Big Field"
+    },
+    {
+      "year": "2017",
+      "place": "7th place",
+      "text": "International RoboCup IranOpen, Junior Soccer Individual"
+    },
+    {
+      "year": "2016",
+      "place": "2nd place",
+      "text": "International RoboCup IranOpen, Junior Soccer Individual"
     }
   ],
   "publication": {
-    "title": "SemEval 2026 Task 1: MWAHAHA — Models Write Automatic Humor And Humans Annotate",
-    "venue": "SemEval 2026 · ACL Anthology",
-    "role": "Co-author",
-    "text": "Shared-task paper on computational humor generation with LLMs, part of the first SemEval task dedicated to humor generation.",
+    "title": "MINDS at SemEval-2026 Task 1: Enhancing Humor Generation through RAG and Synthetic DPO Alignment",
+    "authors": "Sina Eskandari, Seyed Amirreza Mousavi, Amirreza Rahimi, Mona Pouresmaeil, Marcello Vitaggio, Claudio Savelli, Riccardo Coppola, Flavio Giobergia",
+    "venue": "Proceedings of the 20th International Workshop on Semantic Evaluation (SemEval-2026), ACL, pp. 2967–2971",
+    "doi": "10.18653/v1/2026.semeval-1.372",
+    "text": "Our system for the first SemEval task on humor generation: retrieval-augmented generation plus synthetic DPO alignment across Llama 3.1, Gemma 2 and Qwen 2.5. Ranked 2nd.",
     "url": "https://aclanthology.org/2026.semeval-1.372"
   },
   "skills": {

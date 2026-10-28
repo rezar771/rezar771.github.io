@@ -74,9 +74,9 @@ const stats = [
   <section class="section" id="experience">
     <div class="wrap two">
       <div class="section-head sticky">
-        <span class="eyebrow">Experience &amp; education</span>
+        <span class="eyebrow">Experience</span>
         <h2>From robotics team lead to production AI.</h2>
-        <p>Building on embedded vision, then deep learning research, now shipping AI features used by paying clients.</p>
+        <p>Embedded vision first, then deep learning research, now shipping AI features used by paying clients.</p>
         <a class="btn" href="/cv">Full CV →</a>
       </div>
       <ol class="timeline">
@@ -88,26 +88,72 @@ const stats = [
             <ul>{e.bullets.slice(0, 3).map((b) => <li><strong>{b.label}.</strong> {b.text}</li>)}</ul>
           </li>
         ))}
-        {cv.education.map((e) => (
-          <li class="reveal edu">
-            <span class="when mono">{e.dates}</span>
-            <h3>{e.degree}</h3>
-            <p class="org">{e.school} · {e.location}</p>
-            <p class="note">{e.note}</p>
-          </li>
-        ))}
       </ol>
     </div>
   </section>
 
   <section class="section" id="research">
+    <div class="wrap two">
+      <div class="section-head sticky">
+        <span class="eyebrow">Research experience</span>
+        <h2>From robot soccer to diffusion models.</h2>
+        <p>Two theses and a shared-task system that placed 2nd at SemEval 2026.</p>
+      </div>
+      <ol class="research">
+        {cv.research.map((r) => (
+          <li class="reveal">
+            <div class="r-meta mono"><span>{r.kind}</span><span>{r.dates}</span></div>
+            <h3>{r.url ? <a href={r.url} target={r.url.startsWith('http') ? '_blank' : undefined} rel="noopener">{r.title}</a> : r.title}</h3>
+            <ul>{r.bullets.map((b) => <li>{b}</li>)}</ul>
+            {r.note && <p class="r-note">{r.note}</p>}
+          </li>
+        ))}
+      </ol>
+    </div>
     <div class="wrap">
       <a class="pub reveal" href={cv.publication.url} target="_blank" rel="noopener">
-        <span class="eyebrow">Publication · {cv.publication.venue}</span>
+        <span class="eyebrow">Publication · SemEval 2026 · ACL Anthology</span>
         <h2>{cv.publication.title}</h2>
+        <p class="authors">
+          {cv.publication.authors.split('Amirreza Rahimi')[0]}<strong>Amirreza Rahimi</strong>{cv.publication.authors.split('Amirreza Rahimi')[1]}
+        </p>
         <p>{cv.publication.text}</p>
-        <span class="pub-link mono">{cv.publication.role} · aclanthology.org/2026.semeval-1.372 ↗</span>
+        <span class="pub-link mono">{cv.publication.venue} · doi:{cv.publication.doi} ↗</span>
       </a>
+    </div>
+  </section>
+
+  <section class="section" id="education">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <span class="eyebrow">Education &amp; honors</span>
+        <h2>Trained in AI at Politecnico di Torino.</h2>
+      </div>
+      <div class="edu-grid">
+        <div class="edu-col">
+          <h3 class="col-label eyebrow">Education</h3>
+          {cv.education.map((e) => (
+            <article class="edu reveal">
+              <span class="when mono">{e.dates}</span>
+              <h4>{e.degree}</h4>
+              <p class="org">{e.school} · {e.location}</p>
+              <ul>{e.notes.map((n) => <li>{n}</li>)}</ul>
+            </article>
+          ))}
+        </div>
+        <div class="edu-col">
+          <h3 class="col-label eyebrow">Honors &amp; awards</h3>
+          <ol class="honors">
+            {cv.honors.map((h) => (
+              <li class="reveal">
+                <span class="h-year mono num">{h.year}</span>
+                <span class="h-place">{h.place}</span>
+                <span class="h-text">{h.text}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
     </div>
   </section>
 
@@ -210,7 +256,6 @@ const stats = [
     background: var(--bg); border: 2px solid var(--line-strong);
   }
   .timeline > li.current::before { border-color: var(--heat); background: var(--heat); box-shadow: 0 0 0 5px var(--heat-soft); }
-  .timeline > li.edu::before { border-radius: 2px; }
   .when { font-size: 12px; color: var(--fg-3); letter-spacing: .04em; }
   .current .when { color: var(--heat); }
   .timeline h3 { font-size: var(--step-1); }
@@ -218,6 +263,38 @@ const stats = [
   .note { color: var(--fg-2); font-size: 0.92rem; }
   .timeline ul { margin: 6px 0 0; padding-left: 18px; display: grid; gap: 6px; color: var(--fg-2); font-size: 0.93rem; max-width: 70ch; }
   .timeline ul strong { color: var(--fg); font-weight: 600; }
+
+  .research { list-style: none; margin: 0; padding: 0; display: grid; gap: 0; }
+  .research > li { display: grid; gap: 8px; padding: 0 0 32px; margin-bottom: 32px; border-bottom: 1px solid var(--line); }
+  .research > li:last-child { margin-bottom: 0; border-bottom: 0; padding-bottom: 0; }
+  .r-meta { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; font-size: 12px; color: var(--heat); letter-spacing: .04em; }
+  .r-meta span:last-child { color: var(--fg-3); }
+  .research h3 { font-size: var(--step-1); }
+  .research h3 a { text-decoration: none; background: linear-gradient(var(--heat), var(--heat)) 0 100% / 0 2px no-repeat; transition: background-size .4s var(--ease-out); }
+  .research h3 a:hover { background-size: 100% 2px; }
+  .research ul { margin: 2px 0 0; padding-left: 18px; display: grid; gap: 6px; color: var(--fg-2); font-size: 0.93rem; max-width: 70ch; }
+  .r-note { font-size: 0.85rem; color: var(--fg-3); }
+
+  #research .pub { margin-top: clamp(48px, 6vw, 80px); }
+  .authors { font-size: 0.9rem; }
+  .authors strong { color: var(--fg); font-weight: 600; }
+
+  .edu-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px); align-items: start; }
+  @media (max-width: 820px) { .edu-grid { grid-template-columns: 1fr; } }
+  .edu-col { display: grid; gap: 18px; }
+  .col-label { margin: 0; padding-bottom: 12px; border-bottom: 1px solid var(--line-strong); font-weight: 400; }
+  .edu { display: grid; gap: 6px; padding-bottom: 22px; border-bottom: 1px solid var(--line); }
+  .edu h4 { margin: 0; font: 700 var(--step-1)/1.2 var(--font-display); letter-spacing: -0.01em; }
+  .edu ul { margin: 4px 0 0; padding-left: 18px; display: grid; gap: 4px; color: var(--fg-2); font-size: 0.92rem; }
+  .honors { list-style: none; margin: 0; padding: 0; display: grid; }
+  .honors li {
+    display: grid; grid-template-columns: 52px 92px minmax(0, 1fr); gap: 4px 14px; align-items: baseline;
+    padding: 14px 0; border-bottom: 1px solid var(--line);
+  }
+  .h-year { font-size: 12px; color: var(--fg-3); }
+  .h-place { font: 700 0.95rem/1.3 var(--font-display); color: var(--heat); }
+  .h-text { font-size: 0.92rem; color: var(--fg-2); }
+  @media (max-width: 480px) { .honors li { grid-template-columns: 44px minmax(0, 1fr); } .h-text { grid-column: 2; } }
 
   .pub {
     display: grid; gap: 14px; text-decoration: none; padding: clamp(24px, 4vw, 48px);
