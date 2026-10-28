@@ -23,7 +23,10 @@ const stats = [
     <div class="wrap hero-inner">
       <p class="status mono"><span class="live" aria-hidden="true"></span>Torino, Italy</p>
       <h1>
-        <span class="l1">Amirreza Rahimi</span>
+        <span class="l1">
+          <img class="avatar" src="/media/avatar.webp" alt="Portrait of Amirreza Rahimi" width="64" height="64" decoding="async" fetchpriority="high" />
+          Amirreza Rahimi
+        </span>
         <span class="l2">I build LLM, RAG and computer vision systems.</span>
       </h1>
       <p class="lede">
@@ -216,7 +219,13 @@ const stats = [
   .live { width: 8px; height: 8px; border-radius: 50%; background: var(--heat); }
   h1 { display: grid; gap: 14px; }
   .l2 { max-width: 15ch; }
-  .l1 { font-size: var(--step--1); font-family: var(--font-mono); font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--heat); }
+  .l1 { display: inline-flex; align-items: center; gap: 14px; font-size: var(--step--1); font-family: var(--font-mono); font-weight: 400; letter-spacing: .12em; text-transform: uppercase; color: var(--heat); }
+  .avatar {
+    width: 64px; height: 64px; border-radius: 50%; object-fit: cover; flex: none;
+    border: 2px solid var(--bg); box-shadow: 0 0 0 2px var(--heat), 0 8px 24px -10px var(--heat);
+    background: var(--bg-sunk);
+  }
+  @media (max-width: 520px) { .avatar { width: 52px; height: 52px; } }
   .l2 { font-size: var(--step-4); font-weight: 800; letter-spacing: -0.035em; line-height: 0.98; }
   .lede { max-width: 56ch; color: var(--fg-2); font-size: var(--step-1); line-height: 1.5; }
   .cta { display: flex; flex-wrap: wrap; gap: 10px; }
