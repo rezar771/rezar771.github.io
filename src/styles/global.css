@@ -82,11 +82,23 @@ p { margin: 0; }
 .section + .section { border-top: 1px solid var(--line); }
 
 .eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
   font-family: var(--font-mono);
-  font-size: var(--step--1);
+  font-size: 0.8rem;
+  font-weight: 500;
   text-transform: uppercase;
-  letter-spacing: 0.12em;
-  color: var(--fg-3);
+  letter-spacing: 0.16em;
+  color: var(--heat);
+}
+.eyebrow::before {
+  content: '';
+  flex: none;
+  width: 22px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
 }
 .section-head { display: grid; gap: 14px; margin-bottom: clamp(32px, 5vw, 56px); max-width: 62ch; }
 .section-head h2 { font-size: var(--step-3); }
