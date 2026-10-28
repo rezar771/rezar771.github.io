@@ -29,8 +29,8 @@ def bullet(s):
     return {"label": "", "text": clean(s)}
 
 
-USTYLE_FULLTIME = ["production_software_ml", "llm_vlm", "production_genai_platforms",
-                   "fullstack_web", "local_llm_ops", "ml_monitoring", "ecommerce"]
+USTYLE_FULLTIME = ["production_software_ml", "llm_vlm_past", "production_genai_platforms_past",
+                   "fullstack_web", "local_llm_ops", "ml_monitoring", "ecommerce_past"]
 USTYLE_THESIS = ["vto_research_past", "body_seg"]
 
 data = {
@@ -43,7 +43,7 @@ data = {
     "github": "https://github.com/rezar771",
     "experience": [
         {"role": "Full-Stack AI Engineer", "org": "Ustyle S.r.l.", "location": "Torino, Italy",
-         "dates": "Jan 2026 – Present", "current": True,
+         "dates": "Jan 2026 – Oct 2026",
          "bullets": [bullet(cv.USTYLE_BULLETS[k]) for k in USTYLE_FULLTIME]},
         {"role": "AI & Computer Vision Engineer (Thesis Intern)", "org": "Ustyle S.r.l.",
          "location": "Torino, Italy", "dates": "Sep 2025 – Jan 2026",

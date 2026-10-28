@@ -1,7 +1,7 @@
 {
   "name": "Amirreza Rahimi",
   "title": "AI / Machine Learning Engineer",
-  "summary": "AI and Machine Learning Engineer with hands-on experience in Large Language Models (LLMs), Vision-Language Models (VLMs), Computer Vision, and Deep Learning pipelines. Currently a Full-Stack AI Engineer at Ustyle S.r.l. developing 2D/3D Virtual Try-On models and synthetic data generation pipelines. Co-author of a published SemEval 2026 (ACL) shared-task paper. Proficient in Python, PyTorch, TensorFlow, MLOps, and cloud platforms (AWS, Azure, GCP). Strong background in research, model integration, and production-grade AI systems.",
+  "summary": "AI and Machine Learning Engineer with hands-on experience in Large Language Models (LLMs), Vision-Language Models (VLMs), Computer Vision, and Deep Learning pipelines. Former Full-Stack AI Engineer at Ustyle S.r.l. (2026), where developed 2D/3D Virtual Try-On models and synthetic data generation pipelines. Co-author of a published SemEval 2026 (ACL) shared-task paper. Proficient in Python, PyTorch, TensorFlow, MLOps, and cloud platforms (AWS, Azure, GCP). Strong background in research, model integration, and production-grade AI systems.",
   "location": "Torino, Italy",
   "email": "amirrezarahimi771@gmail.com",
   "linkedin": "https://www.linkedin.com/in/amirrezarahimi771",
@@ -11,8 +11,7 @@
       "role": "Full-Stack AI Engineer",
       "org": "Ustyle S.r.l.",
       "location": "Torino, Italy",
-      "dates": "Jan 2026 – Present",
-      "current": true,
+      "dates": "Jan 2026 – Oct 2026",
       "bullets": [
         {
           "label": "Production Software & ML",
@@ -20,11 +19,11 @@
         },
         {
           "label": "LLM & VLM Integration",
-          "text": "Leveraging Large Language Models and Vision-Language Models for advanced data pre-processing, annotation, and analysis."
+          "text": "Integrated Large Language Models and Vision-Language Models into data pre-processing, annotation, analysis, and product workflows."
         },
         {
           "label": "Production GenAI Platforms",
-          "text": "Use Google Vertex AI and Gemini models daily in production workflows at Ustyle; also experienced integrating OpenAI models into deployed project workflows."
+          "text": "Used Google Vertex AI and Gemini models in production workflows and integrated OpenAI models into deployed project workflows."
         },
         {
           "label": "Full-Stack Web Platform",
@@ -40,7 +39,7 @@
         },
         {
           "label": "E-commerce AI Solutions",
-          "text": "Designing and shipping AI-driven features for Shopify and WooCommerce storefronts."
+          "text": "Designed and shipped AI-driven features for Shopify and WooCommerce storefronts."
         }
       ]
     },
