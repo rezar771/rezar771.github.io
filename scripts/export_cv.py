@@ -1,7 +1,7 @@
 """Export canonical CV facts from ~/cv/cv_render.py into src/data/cv.json.
 
 The CV renderer is the single source of truth; this script only selects and
-reshapes. The main CV PDF is copied unchanged for download.
+reshapes. The AI/ML Engineer variant (~/cv/build_variants.py) is copied unchanged for download.
 """
 import json
 import re
@@ -78,5 +78,5 @@ data = {
 }
 
 (ROOT / "src/data/cv.json").write_text(json.dumps(data, indent=2, ensure_ascii=False))
-shutil.copy(CV_DIR / "Amirreza_Rahimi_CV2026.pdf", ROOT / "public/Amirreza_Rahimi_CV.pdf")
+shutil.copy(CV_DIR / "Amirreza_Rahimi_CV_AI_ML_Engineer.pdf", ROOT / "public/Amirreza_Rahimi_CV.pdf")
 print("wrote src/data/cv.json and public/Amirreza_Rahimi_CV.pdf")
