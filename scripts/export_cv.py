@@ -1,7 +1,7 @@
 """Export canonical CV facts from ~/cv/cv_render.py into src/data/cv.json.
 
 The CV renderer is the single source of truth; this script only selects and
-reshapes. Phone number is deliberately omitted from the public site.
+reshapes. The main CV PDF is copied unchanged for download.
 """
 import json
 import re
